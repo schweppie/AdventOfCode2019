@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace AdventOfCode2019.Puzzles
 {
@@ -32,10 +31,12 @@ namespace AdventOfCode2019.Puzzles
 
         private Type GetPuzzleType(int day, int part)
         {
-            Type puzzleType = Type.GetType(BASE_PUZZLE_NAMESPACE + day + ".Day" + day + "Part" + part + "Puzzle");
+            string puzzlePrefix = BASE_PUZZLE_NAMESPACE + day + ".Day" + day;
+
+            Type puzzleType = Type.GetType(puzzlePrefix + "Part" + part + "Puzzle");
             
             if (puzzleType == null)
-                puzzleType = Type.GetType(BASE_PUZZLE_NAMESPACE + day + ".Day" + day + "Puzzle");
+                puzzleType = Type.GetType(puzzlePrefix + "Puzzle");
             
             return puzzleType;
         }
