@@ -5,7 +5,7 @@ namespace AdventOfCode2019.Puzzles
 {
     public class PuzzleFactory
     {
-        private const string BASE_PUZZLE_NAMESPACE = "AdventOfCode2019.Puzzles.Puzzle.Day";
+        private const string BASE_PUZZLE_NAMESPACE = "AdventOfCode2019.Puzzles.Day";
 
         private Dictionary<Type, PuzzleBase> puzzlesCacheDictionary;
 
