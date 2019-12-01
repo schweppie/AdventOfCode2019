@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace AdventOfCode2019.Puzzles
 {
@@ -17,7 +18,7 @@ namespace AdventOfCode2019.Puzzles
         public PuzzleBase GetPuzzle(int day, int part)
         {
             Type puzzleType = GetPuzzleType(day, part);
-            if(puzzleType == null)
+            if(puzzleType == null || puzzleType.GetTypeInfo().IsAbstract)
                 return null;
 
             if(puzzlesCacheDictionary.ContainsKey(puzzleType))

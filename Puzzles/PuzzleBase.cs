@@ -20,6 +20,6 @@ namespace AdventOfCode2019.Puzzles
         
         protected abstract string GetPuzzleData();
         
-        public abstract string GetSolution();
+        public abstract int GetSolution();
     }
 }
