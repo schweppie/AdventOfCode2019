@@ -26,6 +26,8 @@ namespace AdventOfCode2019.Puzzles
             PuzzleBase puzzle = (PuzzleBase) Activator.CreateInstance(puzzleType);
             puzzlesCacheDictionary.Add(puzzleType, puzzle);
 
+            puzzle.Initialize();
+
             return puzzle;
         }
 
