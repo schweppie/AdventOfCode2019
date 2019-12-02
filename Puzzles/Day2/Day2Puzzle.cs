@@ -8,6 +8,7 @@ namespace AdventOfCode2019.Puzzles.Day2
         protected const int OPCODE_TERMINATE = 99;
         protected const int OPCODE_ADD = 1;
         protected const int OPCODE_MULTIPLY = 2;
+        protected const int ERROR_CODE = -1;
 
         protected override string GetPuzzleData()
         {

@@ -24,7 +24,7 @@ namespace AdventOfCode2019.Puzzles.Day2
                 else if( opcode == OPCODE_MULTIPLY)
                     output = xInput * yInput;
                 else
-                    return -134213412;
+                    return ERROR_CODE;
 
                 programData[programData[i+3]] = output;
             }
