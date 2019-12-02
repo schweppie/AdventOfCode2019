@@ -1,7 +1,7 @@
 # AdventOfCode2019
-This repo contains the solutions for the [AdventOfCode2019](https://adventofcode.com/2019)
+This repo contains my solutions for the [AdventOfCode2019](https://adventofcode.com/2019)
 
-#### Notables and techniques
+#### Notables
 ##### General
 - `PuzzleFactory` uses `Reflection` to instantiate `PuzzleBase`derived objects based on user input.
 ##### Day 1
