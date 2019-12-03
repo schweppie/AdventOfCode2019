@@ -12,7 +12,7 @@ namespace AdventOfCode2019.Puzzles.Day2
             return "/Day2Data.txt";
         }
 
-        protected int[] GetProgramData()
+        private int[] GetProgramData()
         {
             string[] programInput = lines[0].Split(',');
             int[] programData = new int[programInput.Length];
