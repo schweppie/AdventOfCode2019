@@ -7,7 +7,7 @@ namespace AdventOfCode2019
         static void Main(string[] args)
         {
             PuzzleSolver puzzleSolver = new PuzzleSolver();
-            puzzleSolver.Start();
+            puzzleSolver.Start(args);
         }
     }
 }

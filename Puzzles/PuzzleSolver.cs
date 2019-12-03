@@ -18,14 +18,23 @@ namespace AdventOfCode2019.Puzzles
             puzzleFactory.Initialize();
         }
 
-        public void Start()
+        public void Start(string[] args)
         {
             isSolving = true;
-
+            string puzzleInput;
             while (isSolving)
             {
-                Console.WriteLine("Enter Puzzle day and part: day,part");
-                string puzzleInput = Console.ReadLine();
+                if(args == null)
+                {
+                    Console.WriteLine("Enter Puzzle day and part: day,part");
+                    puzzleInput = Console.ReadLine();
+                }
+                else
+                {
+                    puzzleInput = args[0];
+                    args = null;
+                }
+
 
                 if (puzzleInput.StartsWith('q'))
                 {
