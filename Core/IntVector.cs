@@ -44,6 +44,6 @@ namespace AdventOfCode2019.Core
         public static IntVector2 operator -(IntVector2 a, IntVector2 b)
         {
             return new IntVector2 (a.X - b.X, a.Y - b.Y);
-        }        
+        }
     }
 }

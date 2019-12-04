@@ -50,7 +50,7 @@ namespace AdventOfCode2019.Puzzles.Day2
                 programData[programData[i+3]] = output;
             }
 
-            return programData[0]; 
+            return programData[0];
         }
    }
 }

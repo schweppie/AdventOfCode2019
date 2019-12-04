@@ -12,7 +12,7 @@ namespace AdventOfCode2019.Puzzles.Day4
 
             PopulatePairData(numberToCheck);
 
-            return PairData.Where(p => p.Value >= 2).Count() > 0; ;
+            return PairData.Where(p => p.Value >= 2).Count() > 0;
         }
     }
 }

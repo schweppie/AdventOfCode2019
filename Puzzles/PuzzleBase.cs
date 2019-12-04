@@ -7,7 +7,7 @@ namespace AdventOfCode2019.Puzzles
         protected string[] lines;
 
         protected const string NO_SOLUTION = "No solution :(!";
-        
+
         public virtual void Initialize()
         {
             lines = File.ReadAllLines(GetPuzzlesDataPath());
@@ -17,9 +17,9 @@ namespace AdventOfCode2019.Puzzles
         {
             return Directory.GetCurrentDirectory() + "\\PuzzleData\\" + GetPuzzleData();
         }
-        
+
         protected abstract string GetPuzzleData();
-        
+
         public abstract int GetSolution();
     }
 }

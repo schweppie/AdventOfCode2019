@@ -37,10 +37,10 @@ namespace AdventOfCode2019.Puzzles
             string puzzlePrefix = BASE_PUZZLE_NAMESPACE + day + ".Day" + day;
 
             Type puzzleType = Type.GetType(puzzlePrefix + "Part" + part + "Puzzle");
-            
+
             if (puzzleType == null)
                 puzzleType = Type.GetType(puzzlePrefix + "Puzzle");
-            
+
             return puzzleType;
         }
     }

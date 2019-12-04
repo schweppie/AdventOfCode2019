@@ -40,7 +40,7 @@ namespace AdventOfCode2019.Puzzles.Day3
                 if(node.Y < target.Y)
                     node.Y++;
                 else if (node.Y > target.Y)
-                    node.Y--;                    
+                    node.Y--;
 
                 Path.Add(node);
             }
