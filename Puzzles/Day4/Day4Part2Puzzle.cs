@@ -8,6 +8,7 @@ namespace AdventOfCode2019.Puzzles.Day4
     {
         protected override bool IsNumberValid(int[] numberToCheck)
         {
+            
             //numberToCheck = new int[] {1,1,1,1,2,2 };
 
             if (!base.IsNumberValid(numberToCheck))
@@ -25,10 +26,9 @@ namespace AdventOfCode2019.Puzzles.Day4
                 i+=pairLength;
             }
 
-            if (pairData.Where(p => p.Value == 2).Count() == 0)
-                return false;
+            bool groupOfTwoExists = pairData.Where(p => p.Value == 2).Count() > 0;
 
-            if (pairData.Where(p => Helpers.IsOdd(p.Value)).Count() > 0)
+            if (pairData.Where(p => Helpers.IsOdd(p.Value)).Count() > 0 && !groupOfTwoExists)
                 return false;
 
             return true;
