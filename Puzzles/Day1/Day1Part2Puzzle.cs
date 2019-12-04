@@ -9,7 +9,7 @@ namespace AdventOfCode2019.Puzzles.Day1
             for (int i = 0; i < lines.Length; i++)
                 mass += CalculateFuel(int.Parse(lines[i]));;
 
-            return mass; 
+            return mass;
         }
 
         private int CalculateFuel(int mass)

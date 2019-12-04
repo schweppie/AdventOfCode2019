@@ -33,7 +33,7 @@ namespace AdventOfCode2019.Puzzles
                     isSolving = false;
                     continue;
                 }
-                
+
                 if(!GetDayAndPart(puzzleInput, out day, out part))
                 {
                     Console.WriteLine("Invalid input..");
@@ -41,7 +41,7 @@ namespace AdventOfCode2019.Puzzles
                 }
 
                 puzzleToSolve = puzzleFactory.GetPuzzle(day, part);
-                
+
                 if (puzzleToSolve != null)
                     Console.WriteLine("Solution: " + puzzleToSolve.GetSolution());
                 else
@@ -62,7 +62,7 @@ namespace AdventOfCode2019.Puzzles
 
             if(!int.TryParse(puzzleInputData[0], out day))
                 return false;
-            
+
             if(puzzleInputData.Length > 1 && !int.TryParse(puzzleInputData[1], out part))
                 part = -1;
 

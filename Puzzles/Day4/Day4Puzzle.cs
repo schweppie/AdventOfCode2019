@@ -18,7 +18,7 @@ namespace AdventOfCode2019.Puzzles.Day4
         protected override string GetPuzzleData()
         {
             return "/Day4Data.txt";
-        }    
+        }
 
         public override void Initialize()
         {
@@ -44,12 +44,12 @@ namespace AdventOfCode2019.Puzzles.Day4
                     Console.WriteLine( GetFullNumber(number));
                 }
 
-                number[numberIndex]++;                
+                number[numberIndex]++;
                 if (number[numberIndex] == 10)
                 {
                     for (int i=numberIndex; i<6; i++)
                         number[i] = 0;
-                    
+
                     int index = numberIndex - 1;
                     while (index >= 0)
                     {
@@ -119,7 +119,7 @@ namespace AdventOfCode2019.Puzzles.Day4
                     neighbours++;
             }
 
-            return neighbours;           
+            return neighbours;
         }
     }
 }
