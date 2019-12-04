@@ -5,4 +5,6 @@ This repo contains my solutions for the [AdventOfCode2019](https://adventofcode.
 ##### General
 - `PuzzleFactory` uses `Reflection` to instantiate `PuzzleBase`derived objects based on user input.
 ##### Day 1
-- Using recursion to find the solution.
+- Using `Recursion` to find the solution.
+##### Day 3
+- Using `Regex` to parse data.
