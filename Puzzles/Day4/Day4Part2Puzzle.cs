@@ -1,5 +1,4 @@
 using System.Linq;
-using AdventOfCode2019.Core;
 
 namespace AdventOfCode2019.Puzzles.Day4
 {
@@ -7,8 +6,6 @@ namespace AdventOfCode2019.Puzzles.Day4
     {
         protected override bool IsNumberValid(int[] numberToCheck)
         {
-            //numberToCheck = new int[] {5,8,9,9,9,9 };
-
             // Check ascending left to right
             if (!base.IsNumberValid(numberToCheck))
                 return false;
