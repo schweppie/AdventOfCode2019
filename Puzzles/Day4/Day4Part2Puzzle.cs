@@ -38,9 +38,9 @@ namespace AdventOfCode2019.Puzzles.Day4
         {
             int neighbours = 0;
             int number = numberToCheck[index];
-            for(int j=index+1; j<6; j++)
+            for(int i=index+1; i<6; i++)
             {
-                if (numberToCheck[j] == number)
+                if (numberToCheck[i] == number)
                     neighbours++;
             }
 
