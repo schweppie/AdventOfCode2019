@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace AdventOfCode2019.Puzzles.Day4
 {
@@ -9,6 +10,10 @@ namespace AdventOfCode2019.Puzzles.Day4
 
         protected int[] number = new int[6];
         private int[] multiplyMapping = {100000,10000,1000,100,10,1};
+
+        // Keys.Count is amount of pairs. <index, pairLength>
+        private Dictionary<int, int> pairData = new Dictionary<int, int>();
+        protected Dictionary<int, int> PairData => pairData;
 
         protected override string GetPuzzleData()
         {
@@ -76,7 +81,7 @@ namespace AdventOfCode2019.Puzzles.Day4
 
         protected virtual bool IsNumberValid(int[] numberToCheck)
         {
-            // Check ascending numbers left to right
+            // Check ascending left to right
             int lowest = numberToCheck[0];
             for (int i=0; i<6; i++)
             {
@@ -88,6 +93,33 @@ namespace AdventOfCode2019.Puzzles.Day4
             }
 
             return true;
+        }
+
+        protected void PopulatePairData(int[] numberToCheck)
+        {
+            pairData.Clear();
+            for(int i=0; i<5; i++)
+            {
+                int pairLength = GetPairLength(i, numberToCheck);
+                if(pairLength == 0)
+                    continue;
+
+                pairData.Add(i, pairLength + 1);
+                i+=pairLength;
+            }
+        }
+
+        private int GetPairLength(int index, int[] numberToCheck)
+        {
+            int neighbours = 0;
+            int number = numberToCheck[index];
+            for(int i=index+1; i<6; i++)
+            {
+                if (numberToCheck[i] == number)
+                    neighbours++;
+            }
+
+            return neighbours;           
         }
     }
 }
