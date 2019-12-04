@@ -24,17 +24,9 @@ namespace AdventOfCode2019.Puzzles
             string puzzleInput;
             while (isSolving)
             {
-                if(args == null)
-                {
-                    Console.WriteLine("Enter Puzzle day and part: day,part");
-                    puzzleInput = Console.ReadLine();
-                }
-                else
-                {
-                    puzzleInput = args[0];
-                    args = null;
-                }
 
+                Console.WriteLine("Enter Puzzle day and part: day,part");
+                puzzleInput = Console.ReadLine();
 
                 if (puzzleInput.StartsWith('q'))
                 {
