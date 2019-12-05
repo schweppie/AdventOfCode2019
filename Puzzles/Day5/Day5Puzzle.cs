@@ -1,9 +1,9 @@
+using System;
+
 namespace AdventOfCode2019.Puzzles.Day5
 {
     public abstract class Day5Puzzle : PuzzleBase
     {
-
-
         protected override string GetPuzzleData()
         {
             return "/Day5Data.txt";
@@ -20,20 +20,27 @@ namespace AdventOfCode2019.Puzzles.Day5
             return programData;
         }
 
-        protected int GetProgramOutput(int input)
+        protected int GetProgramOutput(int noun, int verb, int input)
         {
             int[] programData = GetProgramData();
 
-
-            //programData = new int[] { 3,0,4,0,99};
+            programData[1] = noun;
+            programData[2] = verb;
 
             int output = -1;
-            int xInput;
-            int yInput;
+            //programData = new int[] { 1101,100,-1,4,4,4};
 
             for(int i=0; i<programData.Length; i+=4)
             {
-                int opcode = programData[i];
+                int opcode = programData[i] % 100;
+
+	            Mode parameterMode1 = (programData[i]/100%10) > 0 ? Mode.Immediate : Mode.Position;
+	            Mode parameterMode2 = (programData[i]/1000%10) > 0 ? Mode.Immediate : Mode.Position;
+	            Mode parameterMode3 = (programData[i]/10000%10) > 0 ? Mode.Immediate : Mode.Position;
+
+                // 0 = position mode
+                // 1 = immediate mode
+                Console.WriteLine(programData[i] + " = opcode : " + opcode + " P1 " + parameterMode1 + " P2 " + parameterMode2 + " P3 " + parameterMode3);
 
                 if(opcode == (int)Opcodes.OPCODE_TERMINATE)
                     break;
@@ -41,29 +48,56 @@ namespace AdventOfCode2019.Puzzles.Day5
                 switch((Opcodes)opcode)
                 {
                     case Opcodes.OPCODE_ADD:
-                        xInput = programData[programData[i+1]];
-                        yInput = programData[programData[i+2]];
-                        output = xInput + yInput;
-                        programData[programData[i+3]] = output;
+                        ExecuteAdd(ref programData, parameterMode1, parameterMode2, parameterMode3, i);
                         break;
                     case Opcodes.OPCODE_MULTIPLY:
-                        xInput = programData[programData[i+1]];
-                        yInput = programData[programData[i+2]];
-                        output = xInput * yInput;
-                        programData[programData[i+3]] = output;
+                        ExecuteMultiply(ref programData, parameterMode1, parameterMode2, parameterMode3, i);
                         break;
                     case Opcodes.OPCODE_SINGLE:
-                        programData[programData[i+1]] = input;
-                        i-=2;
+                        ExecuteSingle(ref programData, ref i, input);
                         break;
                     case Opcodes.OPCODE_OUTPUT:
-                        output = programData[programData[i+1]];
-                        i-=2;
+                        ExecuteOutput(ref programData, parameterMode1, ref i, ref output);
                         break;
                 }
             }
 
             return output;
+        }
+
+        public enum Mode
+        {
+            Position,
+            Immediate
+        }
+
+        private void ExecuteAdd(ref int[] programData, Mode param1, Mode param2, Mode param3, int instructionPointer)
+        {
+            int input1 = param1 == Mode.Position ? programData[programData[instructionPointer+1]] : programData[instructionPointer+1];
+            int input2 = param2 == Mode.Position ? programData[programData[instructionPointer+2]] : programData[instructionPointer+2];
+            int pointer = programData[instructionPointer+3];
+            programData[pointer] = input1 + input2;
+        }
+
+        private void ExecuteMultiply(ref int[] programData, Mode param1, Mode param2, Mode param3, int instructionPointer)
+        {
+            int input1 = param1 == Mode.Position ? programData[programData[instructionPointer+1]] : programData[instructionPointer+1];
+            int input2 = param2 == Mode.Position ? programData[programData[instructionPointer+2]] : programData[instructionPointer+2];
+            int pointer = programData[instructionPointer+3];
+            programData[pointer] = input1 * input2;
+        }
+
+        private void ExecuteSingle(ref int[] programData, ref int instructionPointer, int input)
+        {
+            programData[programData[instructionPointer+1]] = input;
+            instructionPointer -= 2;
+        }
+
+        private void ExecuteOutput(ref int[] programData, Mode param1, ref int instructionPointer, ref int output)
+        {
+            output = param1 == Mode.Position ? programData[programData[instructionPointer+1]] : programData[instructionPointer+1];
+            Console.WriteLine("Output: " +  output);
+            instructionPointer -= 2;
         }
    }
 }
