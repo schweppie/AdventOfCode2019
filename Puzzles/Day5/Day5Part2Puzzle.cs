@@ -1,10 +1,10 @@
 namespace AdventOfCode2019.Puzzles.Day5
 {
-    public class Day5Part1Puzzle : Day5Puzzle
+    public class Day5Part2Puzzle : Day5Puzzle
     {
         public override int GetSolution()
         {
-            return GetProgramOutput(1);
+            return GetProgramOutput(5);
         }
     }
 }
