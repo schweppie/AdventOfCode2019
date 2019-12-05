@@ -32,9 +32,9 @@ namespace AdventOfCode2019.Puzzles.Day5
             {
                 int opcode = programData[instructionPointer] % 100;
 
-	            Mode paraMode1 = (programData[instructionPointer]/100%10) > 0 ? Mode.Immediate : Mode.Position;
-	            Mode paraMode2 = (programData[instructionPointer]/1000%10) > 0 ? Mode.Immediate : Mode.Position;
-	            Mode paraMode3 = (programData[instructionPointer]/10000%10) > 0 ? Mode.Immediate : Mode.Position;
+                Mode paraMode1 = (programData[instructionPointer]/100%10) > 0 ? Mode.Immediate : Mode.Position;
+                Mode paraMode2 = (programData[instructionPointer]/1000%10) > 0 ? Mode.Immediate : Mode.Position;
+                Mode paraMode3 = (programData[instructionPointer]/10000%10) > 0 ? Mode.Immediate : Mode.Position;
 
                 // 0 = position mode
                 // 1 = immediate mode
