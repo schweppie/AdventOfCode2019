@@ -10,7 +10,7 @@ namespace AdventOfCode2019.Core.IntProgram
 
         private int GetData(int index, Mode mode)
         {
-            return (mode == Mode.Position) ? programData[programData[index]] : programData[index];
+            return (mode == Mode.Position) ? memory[memory[index]] : memory[index];
         }
 
         private void ExecuteJumpIfTrue(Mode param1, Mode param2)
@@ -33,9 +33,9 @@ namespace AdventOfCode2019.Core.IntProgram
         {
             int pointer = GetData(instructionPointer + 3, Mode.Immediate);
             if(GetData(instructionPointer + 1, param1) < GetData(instructionPointer + 2, param2))
-                programData[pointer] = 1;
+                memory[pointer] = 1;
             else
-                programData[pointer] = 0;
+                memory[pointer] = 0;
             instructionPointer += 4;
         }
 
@@ -43,29 +43,29 @@ namespace AdventOfCode2019.Core.IntProgram
         {
             int pointer = GetData(instructionPointer + 3, Mode.Immediate);
             if(GetData(instructionPointer + 1, param1) == GetData(instructionPointer + 2, param2))
-                programData[pointer] = 1;
+                memory[pointer] = 1;
             else
-                programData[pointer] = 0;
+                memory[pointer] = 0;
             instructionPointer += 4;
         }
 
         private void ExecuteAdd(Mode param1, Mode param2)
         {
             int pointer = GetData(instructionPointer + 3, Mode.Immediate);
-            programData[pointer] = GetData(instructionPointer + 1, param1) + GetData(instructionPointer + 2, param2);
+            memory[pointer] = GetData(instructionPointer + 1, param1) + GetData(instructionPointer + 2, param2);
             instructionPointer += 4;
         }
 
         private void ExecuteMultiply(Mode param1, Mode param2)
         {
             int pointer = GetData(instructionPointer + 3, Mode.Immediate);
-            programData[pointer] = GetData(instructionPointer + 1, param1) * GetData(instructionPointer + 2, param2);
+            memory[pointer] = GetData(instructionPointer + 1, param1) * GetData(instructionPointer + 2, param2);
             instructionPointer += 4;
         }
 
         private void ExecuteSingle(int input)
         {
-            programData[programData[instructionPointer+1]] = input;
+            memory[memory[instructionPointer+1]] = input;
             instructionPointer += 2;
         }
 
