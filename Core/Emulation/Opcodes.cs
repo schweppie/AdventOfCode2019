@@ -1,4 +1,4 @@
-namespace AdventOfCode2019.Core.IntProgram
+namespace AdventOfCode2019.Core.Emulation
 {
     public enum Opcodes
     {
