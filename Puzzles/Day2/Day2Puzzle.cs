@@ -1,4 +1,4 @@
-using AdventOfCode2019.Core.IntProgram;
+using AdventOfCode2019.Core.Emulation;
 
 namespace AdventOfCode2019.Puzzles.Day2
 {
