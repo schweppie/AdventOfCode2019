@@ -4,7 +4,7 @@ namespace AdventOfCode2019.Puzzles.Day5
     {
         public override int GetSolution()
         {
-            return GetProgramOutput(5);
+            return intComputer.GetProgramOutput(5);
         }
     }
 }
