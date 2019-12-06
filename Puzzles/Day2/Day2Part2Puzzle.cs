@@ -21,7 +21,7 @@ namespace AdventOfCode2019.Puzzles.Day2
                 }
             }
 
-            return 0;
+            return ERROR;
         }
     }
 }

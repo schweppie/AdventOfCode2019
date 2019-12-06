@@ -7,6 +7,7 @@ namespace AdventOfCode2019.Puzzles
         protected string[] lines;
 
         protected const string NO_SOLUTION = "No solution :(!";
+        protected const int ERROR = -1;
 
         public virtual void Initialize()
         {

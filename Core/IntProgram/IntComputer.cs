@@ -1,4 +1,4 @@
-using System;
+#undef DEBUG
 
 namespace AdventOfCode2019.Core.IntProgram
 {
@@ -45,14 +45,13 @@ namespace AdventOfCode2019.Core.IntProgram
             {
                 int opcode = memory[instructionPointer] % 100;
 
+                // 0 = position mode, 1 = immediate mode
                 Mode paraMode1 = (memory[instructionPointer]/100%10) > 0 ? Mode.Immediate : Mode.Position;
                 Mode paraMode2 = (memory[instructionPointer]/1000%10) > 0 ? Mode.Immediate : Mode.Position;
-                Mode paraMode3 = (memory[instructionPointer]/10000%10) > 0 ? Mode.Immediate : Mode.Position;
-
-                // 0 = position mode
-                // 1 = immediate mode
+#if DEBUG
                 Console.WriteLine(memory[instructionPointer] + " = opcode : " + ((Opcodes)opcode).ToString() + " P1 "
-                    + paraMode1 + " P2 " + paraMode2 + " P3 " + paraMode3);
+                    + paraMode1 + " P2 " + paraMode2);
+#endif
 
                 if(opcode == (int)Opcodes.Terminate)
                     break;
