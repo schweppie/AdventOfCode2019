@@ -17,7 +17,7 @@ namespace AdventOfCode2019.Puzzles.Day2
                     intComputer.SetOverrideInstruction(1,noun);
                     intComputer.SetOverrideInstruction(2,verb);
                     intComputer.Run();
-                    return intComputer.GetOutput(OutputMode.Address0);
+                    programOutput = intComputer.GetOutput(OutputMode.Address0);
 
                     if(programOutput == TARGET_OUTPUT)
                         return 100 * noun + verb;
