@@ -6,8 +6,10 @@ namespace AdventOfCode2019.Core.Emulation
     {
         private int[] memory;
         private int[] programData;
-        
+        private int[] inputData;
+
         int instructionPointer;
+        int inputPointer;
         int output = (int)Opcodes.Error;
 
         public IntComputer(string[] instructions)
@@ -34,12 +36,18 @@ namespace AdventOfCode2019.Core.Emulation
 
         public int GetProgramOutput()
         {
-            return GetProgramOutput(0);
+            return GetProgramOutput(null);
         }
 
         public int GetProgramOutput(int input)
         {
+            return GetProgramOutput(new int[]{input});
+        }
+
+        public int GetProgramOutput(int[] inputData)
+        {
             instructionPointer = 0;
+            inputPointer = 0;
 
             while(instructionPointer < memory.Length)
             {
@@ -65,7 +73,7 @@ namespace AdventOfCode2019.Core.Emulation
                         ExecuteMultiply(paraMode1, paraMode2);
                         break;
                     case Opcodes.Input:
-                        ExecuteSingle(input);
+                        ExecuteInput(inputData);
                         break;
                     case Opcodes.Output:
                         ExecuteOutput();

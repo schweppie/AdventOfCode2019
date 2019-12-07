@@ -63,16 +63,17 @@ namespace AdventOfCode2019.Core.Emulation
             instructionPointer += 4;
         }
 
-        private void ExecuteSingle(int input)
+        private void ExecuteInput(int[] inputData)
         {
-            memory[memory[instructionPointer+1]] = input;
+            memory[memory[instructionPointer+1]] = inputData[inputPointer];
             instructionPointer += 2;
+            inputPointer+=1;
         }
 
         private void ExecuteOutput()
         {
             output = GetData(instructionPointer + 1, Mode.Position);
             instructionPointer += 2;
-        }        
+        }
     }
 }
