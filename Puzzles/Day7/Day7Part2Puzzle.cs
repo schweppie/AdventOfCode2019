@@ -8,32 +8,39 @@ namespace AdventOfCode2019.Puzzles.Day7
         {
             int output = 0;
 
-            NumberSequence phaseSetting = new NumberSequence(5,9);
-
-            for(int i=0; i<amps.Length; i++)
-            {
-                amps[i].LoadProgram();
-            }
-
-            int[] setting = {9,8,7,6,5};
+            NumberSequence phaseSetting = new NumberSequence(5,9,5);
 
             while(true)
             {
-                int ampOutput =0;
+                if(!phaseSetting.Increase())
+                    break;
 
-                if(phaseSetting.IsUnique())
+                if(!phaseSetting.IsUnique())
+                    continue;
+
+                for(int i=0; i<amps.Length; i++)
                 {
-                    for(int i=0; i<amps.Length; i++)
-                    {
-                        ampOutput = amps[i].GetProgramOutput(new int[] {setting[i], ampOutput});
-                    }
-
-                    if(ampOutput > output)
-                        output = ampOutput;
+                    amps[i].LoadProgram();
+                    amps[i].AddInput(phaseSetting[i]);
                 }
 
-                if(!amps[4].Running)
-                    break;
+                int ampOutput=0;
+                while(true)
+                {
+
+                    for(int i=0; i<amps.Length; i++)
+                    {
+                        amps[i].AddInput(ampOutput);
+                        amps[i].Run();
+                        ampOutput = amps[i].GetOutput();
+                    }
+
+                    if(!amps[4].Running)
+                        break;
+                }
+
+                if(ampOutput > output)
+                    output = ampOutput;
             }
 
             return output;

@@ -1,16 +1,23 @@
 #undef DEBUG
 
+using System;
+using System.Collections.Generic;
+
 namespace AdventOfCode2019.Core.Emulation
 {
     public partial class IntComputer
     {
         private int[] memory;
         private int[] programData;
-        private int[] inputData;
 
-        int instructionPointer;
-        int inputPointer;
-        int output = (int)Opcodes.Error;
+        private List<int> inputData = new List<int>();
+
+        private int output = int.MinValue;
+
+        private bool running = false;
+        public bool Running => running;
+
+        private int instructionPointer;
 
         public IntComputer(string[] instructions)
         {
@@ -27,6 +34,9 @@ namespace AdventOfCode2019.Core.Emulation
         {
             for(int i=0; i< programData.Length; i++)
                 memory[i] = programData[i];
+
+            running = true;
+            instructionPointer = 0;
         }
 
         public void SetOverrideInstruction(int index, int instruction)
@@ -34,21 +44,13 @@ namespace AdventOfCode2019.Core.Emulation
             memory[index] = instruction;
         }
 
-        public int GetProgramOutput()
+        public void AddInput(int input)
         {
-            return GetProgramOutput(null);
+            inputData.Add(input);
         }
 
-        public int GetProgramOutput(int input)
+        public void Run()
         {
-            return GetProgramOutput(new int[]{input});
-        }
-
-        public int GetProgramOutput(int[] inputData)
-        {
-            instructionPointer = 0;
-            inputPointer = 0;
-
             while(instructionPointer < memory.Length)
             {
                 int opcode = memory[instructionPointer] % 100;
@@ -62,7 +64,10 @@ namespace AdventOfCode2019.Core.Emulation
 #endif
 
                 if(opcode == (int)Opcodes.Terminate)
-                    break;
+                {
+                    running = false;
+                    return;
+                }
 
                 switch((Opcodes)opcode)
                 {
@@ -73,8 +78,16 @@ namespace AdventOfCode2019.Core.Emulation
                         ExecuteMultiply(paraMode1, paraMode2);
                         break;
                     case Opcodes.Input:
-                        ExecuteInput(inputData);
-                        break;
+                        if(inputData.Count > 0)
+                        {
+                            ExecuteInput(inputData[0]);
+                            inputData.RemoveAt(0);
+                            break;
+                        }
+                        else
+                        {
+                            return;
+                        }
                     case Opcodes.Output:
                         ExecuteOutput();
                         break;
@@ -92,8 +105,12 @@ namespace AdventOfCode2019.Core.Emulation
                         break;
                 }
             }
+        }
 
-            if(output == (int)Opcodes.Error)
+        public int GetOutput()
+        {
+            // Day 2 solutions
+            if(output == int.MinValue)
                 return memory[0];
 
             return output;

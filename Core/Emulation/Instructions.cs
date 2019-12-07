@@ -1,3 +1,5 @@
+using System;
+
 namespace AdventOfCode2019.Core.Emulation
 {
     public partial class IntComputer
@@ -63,11 +65,10 @@ namespace AdventOfCode2019.Core.Emulation
             instructionPointer += 4;
         }
 
-        private void ExecuteInput(int[] inputData)
+        private void ExecuteInput(int input)
         {
-            memory[memory[instructionPointer+1]] = inputData[inputPointer];
+            memory[memory[instructionPointer+1]] = input;
             instructionPointer += 2;
-            inputPointer+=1;
         }
 
         private void ExecuteOutput()
