@@ -107,10 +107,9 @@ namespace AdventOfCode2019.Core.Emulation
             }
         }
 
-        public int GetOutput()
+        public int GetOutput(OutputMode outputMode = OutputMode.Default)
         {
-            // Day 2 solutions
-            if(output == int.MinValue)
+            if(outputMode == OutputMode.Address0)
                 return memory[0];
 
             return output;
