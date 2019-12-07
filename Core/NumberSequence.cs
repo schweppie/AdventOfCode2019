@@ -1,3 +1,5 @@
+using System;
+
 namespace AdventOfCode2019.Core
 {
     public class NumberSequence
@@ -60,6 +62,11 @@ namespace AdventOfCode2019.Core
             return true;
         }
 
+        public int[] GetSequence()
+        {
+            return sequence;
+        }
+
         public bool IsUnique()
         {
             for(int i=0; i<sequence.Length; i++)
@@ -77,9 +84,9 @@ namespace AdventOfCode2019.Core
             return true;
         }
 
-        public int[] GetSequence()
+        public int this[int index]
         {
-            return sequence;
+            get { return sequence[index]; }
         }
 
         public int GetFullNumber()
