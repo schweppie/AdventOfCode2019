@@ -1,3 +1,5 @@
+using System;
+
 namespace AdventOfCode2019.Core.Emulation
 {
     public partial class IntComputer
@@ -71,8 +73,7 @@ namespace AdventOfCode2019.Core.Emulation
 
         private void ExecuteOutput()
         {
-            Output = GetData(instructionPointer + 1, Mode.Position);
-            //outputData.Add(GetData(instructionPointer + 1, Mode.Position));
+            output = GetData(instructionPointer + 1, Mode.Position);
             instructionPointer += 2;
         }
     }

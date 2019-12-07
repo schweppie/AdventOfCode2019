@@ -11,12 +11,11 @@ namespace AdventOfCode2019.Core.Emulation
         private int[] programData;
 
         private List<int> inputData = new List<int>();
-        private List<int> outputData = new List<int>();
 
-        public int Output = 0;
+        private int output = int.MinValue;
 
         private bool running = false;
-        public bool Running = true;
+        public bool Running => running;
 
         private int instructionPointer;
 
@@ -91,7 +90,7 @@ namespace AdventOfCode2019.Core.Emulation
                         }
                     case Opcodes.Output:
                         ExecuteOutput();
-                        return;
+                        break;
                     case Opcodes.JumpIfTrue:
                         ExecuteJumpIfTrue(paraMode1, paraMode2);
                         break;
@@ -107,20 +106,14 @@ namespace AdventOfCode2019.Core.Emulation
                 }
             }
         }
+
         public int GetOutput()
         {
-            return Output;
-        }
+            // Day 2 solutions
+            if(output == int.MinValue)
+                return memory[0];
 
-/*
-        public int GetOutput()
-        {
-            if(outputData.Count == 0)
-                return -1;
-
-            int output = outputData[0];
-            outputData.RemoveAt(0);
             return output;
-        }*/
+        }
    }
 }
