@@ -7,7 +7,8 @@ namespace AdventOfCode2019.Puzzles.Day2
             intComputer.LoadProgram();
             intComputer.SetOverrideInstruction(1,12);
             intComputer.SetOverrideInstruction(2,2);
-            return intComputer.GetProgramOutput();
+            intComputer.Run();
+            return intComputer.GetOutput();
         }
     }
 }

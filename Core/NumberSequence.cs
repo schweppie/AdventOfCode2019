@@ -3,18 +3,26 @@ namespace AdventOfCode2019.Core
     public class NumberSequence
     {
         private int maxValue;
+        private int minValue;
+
         private int[] sequence;
         private int numberIndex;
         private int[] multiplyMapping = {1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1};
 
-        public NumberSequence(int numbers, int maxValue)
+        public NumberSequence(int numbers, int maxValue, int minValue = 0)
         {
             sequence = new int[numbers];
+
             this.maxValue = maxValue;
+            this.minValue = minValue;
+
             numberIndex = numbers-1;
 
             if(numbers > multiplyMapping.Length)
                 throw new System.Exception("Sequence uses too many numbers!");
+
+            for(int i=0; i<sequence.Length; i++)
+                sequence[i] = minValue;
         }
 
         public void SetValue(int index, int value)
@@ -28,7 +36,7 @@ namespace AdventOfCode2019.Core
             if (sequence[numberIndex] == maxValue+1)
             {
                 for (int i=numberIndex; i<sequence.Length; i++)
-                    sequence[i] = 0;
+                    sequence[i] = minValue;
 
                 int index = numberIndex - 1;
                 while (index >= 0)
@@ -40,7 +48,7 @@ namespace AdventOfCode2019.Core
                         if(index == 0)
                             return false;
 
-                        sequence[index] = 0;
+                        sequence[index] = minValue;
                         index--;
                     }
                     else

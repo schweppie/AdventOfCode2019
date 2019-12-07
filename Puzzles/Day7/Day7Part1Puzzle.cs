@@ -18,7 +18,10 @@ namespace AdventOfCode2019.Puzzles.Day7
                     for(int i=0; i<amps.Length; i++)
                     {
                         amps[i].LoadProgram();
-                        ampOutput = amps[i].GetProgramOutput(new int[] {phaseSetting.GetSequence()[i], ampOutput});
+                        amps[i].AddInput(phaseSetting.GetSequence()[i]);
+                        amps[i].AddInput(ampOutput);
+                        amps[i].Run();
+                        ampOutput = amps[i].GetOutput();
                     }
 
                     if(ampOutput > output)

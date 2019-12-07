@@ -10,31 +10,32 @@ namespace AdventOfCode2019.Puzzles.Day7
 
             NumberSequence phaseSetting = new NumberSequence(5,9);
 
-            for(int i=0; i<amps.Length; i++)
-            {
-                amps[i].LoadProgram();
-            }
 
             int[] setting = {9,8,7,6,5};
 
+            for(int i=0; i<amps.Length; i++)
+            {
+                amps[i].LoadProgram();
+                amps[i].AddInput(setting[i]);
+            }
+
+            int ampOutput=0;
+
             while(true)
             {
-                int ampOutput =0;
 
-                if(phaseSetting.IsUnique())
+                for(int i=0; i<amps.Length; i++)
                 {
-                    for(int i=0; i<amps.Length; i++)
-                    {
-                        ampOutput = amps[i].GetProgramOutput(new int[] {setting[i], ampOutput});
-                    }
-
-                    if(ampOutput > output)
-                        output = ampOutput;
+                    amps[i].AddInput(ampOutput);
+                    amps[i].Run();
+                    ampOutput = amps[i].GetOutput();
                 }
 
                 if(!amps[4].Running)
                     break;
             }
+
+            output = ampOutput;
 
             return output;
         }
