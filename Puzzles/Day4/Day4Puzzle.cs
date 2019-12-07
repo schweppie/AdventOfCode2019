@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AdventOfCode2019.Core;
 
 namespace AdventOfCode2019.Puzzles.Day4
 {
@@ -8,8 +9,7 @@ namespace AdventOfCode2019.Puzzles.Day4
         private string[] inputCodes;
         private int codeTo;
 
-        protected int[] number = new int[6];
-        private int[] multiplyMapping = {100000,10000,1000,100,10,1};
+        protected NumberSequence code = new NumberSequence(6,9);
 
         // Keys.Count is amount of pairs. <index, pairLength>
         private Dictionary<int, int> pairData = new Dictionary<int, int>();
@@ -31,52 +31,25 @@ namespace AdventOfCode2019.Puzzles.Day4
         public override int GetSolution()
         {
             for (int i=0; i<6; i++)
-                number[i] = int.Parse(inputCodes[0].Substring(i, 1));
+                code.SetValue(i,int.Parse(inputCodes[0].Substring(i, 1)));
 
             int validCodes = 0;
-            int numberIndex = 5;
 
-            while (GetFullNumber(number) < codeTo)
+            Console.WriteLine(code.GetFullNumber());
+            while (code.GetFullNumber() < codeTo)
             {
-                if (IsNumberValid(number))
+
+
+                if (IsNumberValid(code.GetSequence()))
                 {
                     validCodes++;
-                    Console.WriteLine( GetFullNumber(number));
+                    Console.WriteLine( code.GetFullNumber());
                 }
 
-                number[numberIndex]++;
-                if (number[numberIndex] == 10)
-                {
-                    for (int i=numberIndex; i<6; i++)
-                        number[i] = 0;
-
-                    int index = numberIndex - 1;
-                    while (index >= 0)
-                    {
-                        number[index]++;
-
-                        if (number[index] == 10)
-                        {
-                            number[index] = 0;
-                            index--;
-                        }
-                        else
-                            break;
-                    }
-                    numberIndex = 5;
-                }
+                code.Increase();
             }
 
             return validCodes;
-        }
-
-        private int GetFullNumber(int[] number)
-        {
-            int fullNumber = 0;
-            for (int i=0; i<6; i++)
-                fullNumber += number[i] * multiplyMapping[i];
-
-            return fullNumber;
         }
 
         protected virtual bool IsNumberValid(int[] numberToCheck)
