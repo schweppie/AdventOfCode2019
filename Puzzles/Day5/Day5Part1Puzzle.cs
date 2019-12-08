@@ -4,7 +4,7 @@ namespace AdventOfCode2019.Puzzles.Day5
     {
         public override int GetSolution()
         {
-            intComputer.LoadProgram();
+            intComputer.Load();
             intComputer.AddInput(1);
             intComputer.Run();
             return intComputer.GetOutput();

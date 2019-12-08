@@ -11,9 +11,9 @@ namespace AdventOfCode2019.Puzzles.Day2
             {
                 for(int verb=0; verb < 100; verb++)
                 {
-                    intComputer.LoadProgram();
-                    intComputer.SetOverrideInstruction(1,noun);
-                    intComputer.SetOverrideInstruction(2,verb);
+                    intComputer.Load();
+                    intComputer.OverrideInstruction(1,noun);
+                    intComputer.OverrideInstruction(2,verb);
                     intComputer.Run();
                     programOutput = intComputer.GetMemory(0);
 

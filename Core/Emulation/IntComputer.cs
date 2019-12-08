@@ -1,6 +1,5 @@
 #undef DEBUG
 
-using System;
 using System.Collections.Generic;
 
 namespace AdventOfCode2019.Core.Emulation
@@ -30,7 +29,7 @@ namespace AdventOfCode2019.Core.Emulation
                 programData[i] = int.Parse(programInput[i]);
         }
 
-        public void LoadProgram()
+        public void Load()
         {
             for(int i=0; i< programData.Length; i++)
                 memory[i] = programData[i];
@@ -39,7 +38,7 @@ namespace AdventOfCode2019.Core.Emulation
             instructionPointer = 0;
         }
 
-        public void SetOverrideInstruction(int index, int instruction)
+        public void OverrideInstruction(int index, int instruction)
         {
             memory[index] = instruction;
         }

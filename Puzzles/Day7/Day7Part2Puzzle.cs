@@ -20,7 +20,7 @@ namespace AdventOfCode2019.Puzzles.Day7
 
                 for(int i=0; i<amps.Length; i++)
                 {
-                    amps[i].LoadProgram();
+                    amps[i].Load();
                     amps[i].AddInput(phaseSetting[i]);
                 }
 

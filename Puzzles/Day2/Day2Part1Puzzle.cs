@@ -4,9 +4,9 @@ namespace AdventOfCode2019.Puzzles.Day2
     {
         public override int GetSolution()
         {
-            intComputer.LoadProgram();
-            intComputer.SetOverrideInstruction(1,12);
-            intComputer.SetOverrideInstruction(2,2);
+            intComputer.Load();
+            intComputer.OverrideInstruction(1,12);
+            intComputer.OverrideInstruction(2,2);
             intComputer.Run();
             return intComputer.GetMemory(0);
         }
