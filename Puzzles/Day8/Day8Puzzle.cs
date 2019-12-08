@@ -33,8 +33,6 @@ namespace AdventOfCode2019.Puzzles.Day8
 
                 layers.Add(layer);
             }
-
-
         }
     }
 }

@@ -31,7 +31,26 @@ namespace AdventOfCode2019.Puzzles.Day8
             {
                 for(int j=0; j<dimensions.X; j++)
                 {
+                    int data = pixels[index];
                     Console.Write(pixels[index]);
+                    index++;
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public void Visualize()
+        {
+            int index = 0;
+            for(int i=0; i<dimensions.Y; i++)
+            {
+                for(int j=0; j<dimensions.X; j++)
+                {
+                    int data = pixels[index];
+                    if(data!=0)
+                        Console.Write("*");
+                    else
+                        Console.Write(" ");
                     index++;
                 }
                 Console.WriteLine();
@@ -48,6 +67,11 @@ namespace AdventOfCode2019.Puzzles.Day8
             }
 
             return count;
+        }
+
+        public int GetPixelAt(int index)
+        {
+            return pixels[index];
         }
     }
 }
