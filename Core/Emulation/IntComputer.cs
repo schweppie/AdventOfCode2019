@@ -107,11 +107,13 @@ namespace AdventOfCode2019.Core.Emulation
             }
         }
 
-        public int GetOutput(OutputMode outputMode = OutputMode.Default)
+        public int GetMemory(int index)
         {
-            if(outputMode == OutputMode.Address0)
-                return memory[0];
+            return memory[0];
+        }
 
+        public int GetOutput()
+        {
             return output;
         }
    }

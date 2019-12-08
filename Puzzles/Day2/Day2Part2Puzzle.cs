@@ -1,5 +1,3 @@
-using AdventOfCode2019.Core.Emulation;
-
 namespace AdventOfCode2019.Puzzles.Day2
 {
     public class Day2Part2Puzzle : Day2Puzzle
@@ -17,7 +15,7 @@ namespace AdventOfCode2019.Puzzles.Day2
                     intComputer.SetOverrideInstruction(1,noun);
                     intComputer.SetOverrideInstruction(2,verb);
                     intComputer.Run();
-                    programOutput = intComputer.GetOutput(OutputMode.Address0);
+                    programOutput = intComputer.GetMemory(0);
 
                     if(programOutput == TARGET_OUTPUT)
                         return 100 * noun + verb;
