@@ -4,9 +4,9 @@ namespace AdventOfCode2019.Puzzles.Day7
 {
     public class Day7Part2Puzzle : Day7Puzzle
     {
-        public override int GetSolution()
+        public override string GetSolution()
         {
-            int output = 0;
+            long output = 0;
 
             NumberSequence phaseSetting = new NumberSequence(5,9,5);
 
@@ -24,7 +24,7 @@ namespace AdventOfCode2019.Puzzles.Day7
                     amps[i].AddInput(phaseSetting[i]);
                 }
 
-                int ampOutput=0;
+                long ampOutput=0;
                 while(true)
                 {
 
@@ -43,7 +43,7 @@ namespace AdventOfCode2019.Puzzles.Day7
                     output = ampOutput;
             }
 
-            return output;
+            return output.ToString();
         }
     }
 }

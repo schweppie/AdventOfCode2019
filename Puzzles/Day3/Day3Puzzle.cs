@@ -16,7 +16,7 @@ namespace AdventOfCode2019.Puzzles.Day3
             return "/Day3Data.txt";
         }
 
-        public override int GetSolution()
+        public override string GetSolution()
         {
             var intersections = wires[0].Path.Intersect(wires[1].Path);
 
@@ -31,7 +31,7 @@ namespace AdventOfCode2019.Puzzles.Day3
                     lowestResult = result;
             }
 
-            return lowestResult;
+            return lowestResult.ToString();
         }
 
         public override void Initialize()

@@ -4,9 +4,9 @@ namespace AdventOfCode2019.Puzzles.Day2
     {
         private const int TARGET_OUTPUT = 19690720;
 
-        public override int GetSolution()
+        public override string GetSolution()
         {
-            int programOutput;
+            long programOutput;
             for(int noun=0; noun < 100; noun++)
             {
                 for(int verb=0; verb < 100; verb++)
@@ -18,7 +18,7 @@ namespace AdventOfCode2019.Puzzles.Day2
                     programOutput = intComputer.GetMemory(0);
 
                     if(programOutput == TARGET_OUTPUT)
-                        return 100 * noun + verb;
+                        return (100 * noun + verb).ToString();
                 }
             }
 

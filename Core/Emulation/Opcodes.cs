@@ -11,6 +11,7 @@ namespace AdventOfCode2019.Core.Emulation
         JumpIfFalse = 6,
         Less = 7,
         Equals = 8,
+        RelativeBase = 9,
         Terminate = 99,
     }
 }

@@ -5,7 +5,7 @@ namespace AdventOfCode2019.Puzzles.Day8
 {
     public class Day8Part1Puzzle : Day8Puzzle
     {
-        public override int GetSolution()
+        public override string GetSolution()
         {
             Layer layer = layers.First();
 
@@ -20,7 +20,7 @@ namespace AdventOfCode2019.Puzzles.Day8
                 }
             }
 
-            return layer.GetPixelCount(1) * layer.GetPixelCount(2);
+            return (layer.GetPixelCount(1) * layer.GetPixelCount(2)).ToString();
         }
     }
 }

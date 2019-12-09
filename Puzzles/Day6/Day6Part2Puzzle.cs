@@ -2,7 +2,7 @@ namespace AdventOfCode2019.Puzzles.Day6
 {
     public class Day6Part2Puzzle : Day6Puzzle
     {
-        public override int GetSolution()
+        public override string GetSolution()
         {
             Orbit com = orbits["COM"];
             Orbit santa = orbits["SAN"];
@@ -23,8 +23,8 @@ namespace AdventOfCode2019.Puzzles.Day6
                 steps++;
             }
 
-            return steps;
+            return steps.ToString();
         }
-        
+
     }
 }

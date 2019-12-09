@@ -6,19 +6,30 @@ namespace AdventOfCode2019.Core.Emulation
     {
         public enum Mode
         {
-            Position,
-            Immediate
+            Position = 0,
+            Immediate = 1,
+            Relative = 2,
         }
 
-        private int GetData(int index, Mode mode)
+        private long GetData(long index, Mode mode)
         {
-            return (mode == Mode.Position) ? memory[memory[index]] : memory[index];
+            switch(mode)
+            {
+                case Mode.Position:
+                     return GetMemory((int)GetMemory((int)index));
+                case Mode.Immediate:
+                    return  GetMemory((int)index);
+                case Mode.Relative:
+                    return GetMemory((int)GetMemory((int)index) + (int)relativeParameterPointer);
+            }
+
+            throw new Exception("Incorrect parameter mode! ");
         }
 
         private void ExecuteJumpIfTrue(Mode param1, Mode param2)
         {
             if(GetData(instructionPointer + 1, param1) != 0)
-                instructionPointer = GetData(instructionPointer + 2, param2);
+                instructionPointer = (int)GetData(instructionPointer + 2, param2);
             else
                 instructionPointer += 3;
         }
@@ -26,54 +37,69 @@ namespace AdventOfCode2019.Core.Emulation
         private void ExecuteJumpIfFalse(Mode param1, Mode param2)
         {
             if(GetData(instructionPointer + 1, param1) == 0)
-                instructionPointer = GetData(instructionPointer + 2, param2);
+                instructionPointer = (int)GetData(instructionPointer + 2, param2);
             else
                 instructionPointer += 3;
         }
 
-        private void ExecuteLessThan(Mode param1, Mode param2)
+        private void ExecuteLessThan(Mode param1, Mode param2, Mode param3)
         {
-            int pointer = GetData(instructionPointer + 3, Mode.Immediate);
+            int pointer = GetWritePointer(instructionPointer + 3, param3);
             if(GetData(instructionPointer + 1, param1) < GetData(instructionPointer + 2, param2))
-                memory[pointer] = 1;
+                SetMemory(pointer, 1);
             else
-                memory[pointer] = 0;
+                SetMemory(pointer, 0);
             instructionPointer += 4;
         }
 
-        private void ExecuteEquals(Mode param1, Mode param2)
+        private void ExecuteEquals(Mode param1, Mode param2, Mode param3)
         {
-            int pointer = GetData(instructionPointer + 3, Mode.Immediate);
+            int pointer = GetWritePointer(instructionPointer + 3, param3);
             if(GetData(instructionPointer + 1, param1) == GetData(instructionPointer + 2, param2))
-                memory[pointer] = 1;
+                SetMemory(pointer, 1);
             else
-                memory[pointer] = 0;
+                SetMemory(pointer, 0);
             instructionPointer += 4;
         }
 
-        private void ExecuteAdd(Mode param1, Mode param2)
+        private void ExecuteAdd(Mode param1, Mode param2, Mode param3)
         {
-            int pointer = GetData(instructionPointer + 3, Mode.Immediate);
-            memory[pointer] = GetData(instructionPointer + 1, param1) + GetData(instructionPointer + 2, param2);
+            int pointer = GetWritePointer(instructionPointer + 3, param3);
+            SetMemory(pointer, GetData(instructionPointer + 1, param1) + GetData(instructionPointer + 2, param2));
             instructionPointer += 4;
         }
 
-        private void ExecuteMultiply(Mode param1, Mode param2)
+        private void ExecuteMultiply(Mode param1, Mode param2, Mode param3)
         {
-            int pointer = GetData(instructionPointer + 3, Mode.Immediate);
-            memory[pointer] = GetData(instructionPointer + 1, param1) * GetData(instructionPointer + 2, param2);
+            int pointer = GetWritePointer(instructionPointer + 3, param3);
+            SetMemory(pointer, GetData(instructionPointer + 1, param1) * GetData(instructionPointer + 2, param2));
             instructionPointer += 4;
         }
 
-        private void ExecuteInput(int input)
+        private void ExecuteInput(long input, Mode param1)
         {
-            memory[memory[instructionPointer+1]] = input;
+            SetMemory(GetWritePointer(instructionPointer + 1, param1), input);
             instructionPointer += 2;
         }
 
-        private void ExecuteOutput()
+        private int GetWritePointer(int index, Mode mode)
         {
-            output = GetData(instructionPointer + 1, Mode.Position);
+            int pointer = (int)GetMemory((int)(index));
+            if(mode == Mode.Relative)
+                pointer += (int)relativeParameterPointer;
+            return pointer;
+        }
+
+        private void ExecuteRelativeBase(Mode param1)
+        {
+            relativeParameterPointer += GetData(instructionPointer + 1, param1);
+            instructionPointer += 2;
+        }
+
+        private void ExecuteOutput(Mode param1)
+        {
+            output = GetData(instructionPointer + 1, param1);
+            Console.WriteLine("OUTPUTTTT " + output);
             instructionPointer += 2;
         }
     }

@@ -1,38 +1,42 @@
-#undef DEBUG
+#define DEBUG
 
+using System;
 using System.Collections.Generic;
 
 namespace AdventOfCode2019.Core.Emulation
 {
     public partial class IntComputer
     {
-        private int[] memory;
-        private int[] programData;
+        private List<long> memory = new List<long>();
+        private long[] programData;
 
-        private List<int> inputData = new List<int>();
+        private List<long> inputData = new List<long>();
 
-        private int output = int.MinValue;
+        private long output = long.MinValue;
 
         private bool running = false;
         public bool Running => running;
 
         private int instructionPointer;
 
+        protected long relativeParameterPointer = 0;
+
         public IntComputer(string[] instructions)
         {
             string[] programInput = instructions[0].Split(',');
 
-            memory = new int[programInput.Length];
-            programData = new int[programInput.Length];
+            programData = new long[programInput.Length];
 
             for(int i=0; i< programInput.Length; i++)
-                programData[i] = int.Parse(programInput[i]);
+                programData[i] = long.Parse(programInput[i]);
         }
 
         public void Load()
         {
+            memory.Clear();
+
             for(int i=0; i< programData.Length; i++)
-                memory[i] = programData[i];
+                memory.Add(programData[i]);
 
             running = true;
             instructionPointer = 0;
@@ -40,25 +44,26 @@ namespace AdventOfCode2019.Core.Emulation
 
         public void OverrideInstruction(int index, int instruction)
         {
-            memory[index] = instruction;
+            SetMemory(index, instruction);
         }
 
-        public void AddInput(int input)
+        public void AddInput(long input)
         {
             inputData.Add(input);
         }
 
         public void Run()
         {
-            while(instructionPointer < memory.Length)
+            while(running)
             {
-                int opcode = memory[instructionPointer] % 100;
+                long opcode = GetMemory(instructionPointer) % 100;
 
-                // 0 = position mode, 1 = immediate mode
-                Mode paraMode1 = (memory[instructionPointer]/100%10) > 0 ? Mode.Immediate : Mode.Position;
-                Mode paraMode2 = (memory[instructionPointer]/1000%10) > 0 ? Mode.Immediate : Mode.Position;
+                // 0 = position mode, 1 = immediate mode, 2 = relative mode
+                Mode paraMode1 = (Mode)(GetMemory(instructionPointer)/100%10);
+                Mode paraMode2 = (Mode)(GetMemory(instructionPointer)/1000%10);
+                Mode paraMode3 = (Mode)(GetMemory(instructionPointer)/10000%10);
 #if DEBUG
-                Console.WriteLine(memory[instructionPointer] + " = opcode : " + ((Opcodes)opcode).ToString() + " P1 "
+                Console.WriteLine(GetMemory(instructionPointer) + " = opcode : " + ((Opcodes)opcode).ToString() + " P1 "
                     + paraMode1 + " P2 " + paraMode2);
 #endif
 
@@ -71,15 +76,15 @@ namespace AdventOfCode2019.Core.Emulation
                 switch((Opcodes)opcode)
                 {
                     case Opcodes.Add:
-                        ExecuteAdd(paraMode1, paraMode2);
+                        ExecuteAdd(paraMode1, paraMode2, paraMode3);
                         break;
                     case Opcodes.Multiply:
-                        ExecuteMultiply(paraMode1, paraMode2);
+                        ExecuteMultiply(paraMode1, paraMode2, paraMode3);
                         break;
                     case Opcodes.Input:
                         if(inputData.Count > 0)
                         {
-                            ExecuteInput(inputData[0]);
+                            ExecuteInput(inputData[0], paraMode1);
                             inputData.RemoveAt(0);
                             break;
                         }
@@ -88,7 +93,7 @@ namespace AdventOfCode2019.Core.Emulation
                             return;
                         }
                     case Opcodes.Output:
-                        ExecuteOutput();
+                        ExecuteOutput(paraMode1);
                         break;
                     case Opcodes.JumpIfTrue:
                         ExecuteJumpIfTrue(paraMode1, paraMode2);
@@ -97,21 +102,35 @@ namespace AdventOfCode2019.Core.Emulation
                         ExecuteJumpIfFalse(paraMode1, paraMode2);
                         break;
                     case Opcodes.Less:
-                        ExecuteLessThan(paraMode1, paraMode2);
+                        ExecuteLessThan(paraMode1, paraMode2, paraMode3);
                         break;
                     case Opcodes.Equals:
-                        ExecuteEquals(paraMode1, paraMode2);
+                        ExecuteEquals(paraMode1, paraMode2, paraMode3);
+                        break;
+                    case Opcodes.RelativeBase:
+                        ExecuteRelativeBase(paraMode1);
                         break;
                 }
             }
         }
 
-        public int GetMemory(int index)
+        public long GetMemory(int index)
         {
-            return memory[0];
+            while(index >= memory.Count)
+                memory.Add(0);
+
+            return memory[index];
         }
 
-        public int GetOutput()
+        public void SetMemory(int index, long value)
+        {
+            while(index >= memory.Count)
+                memory.Add(0);
+
+            memory[index] = value;
+        }
+
+        public long GetOutput()
         {
             return output;
         }

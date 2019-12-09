@@ -1,6 +1,6 @@
-namespace AdventOfCode2019.Puzzles.Day5
+namespace AdventOfCode2019.Puzzles.Day9
 {
-    public class Day5Part1Puzzle : Day5Puzzle
+    public class Day9Part1Puzzle : Day9Puzzle
     {
         public override string GetSolution()
         {

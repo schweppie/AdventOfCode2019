@@ -28,7 +28,7 @@ namespace AdventOfCode2019.Puzzles.Day4
             codeTo = int.Parse(inputCodes[1]);
         }
 
-        public override int GetSolution()
+        public override string GetSolution()
         {
             for (int i=0; i<6; i++)
                 code.SetValue(i,int.Parse(inputCodes[0].Substring(i, 1)));
@@ -49,7 +49,7 @@ namespace AdventOfCode2019.Puzzles.Day4
                 code.Increase();
             }
 
-            return validCodes;
+            return validCodes.ToString();
         }
 
         protected virtual bool IsNumberValid(int[] numberToCheck)

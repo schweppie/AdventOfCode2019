@@ -2,7 +2,7 @@ namespace AdventOfCode2019.Puzzles.Day8
 {
     public class Day8Part2Puzzle : Day8Puzzle
     {
-        public override int GetSolution()
+        public override string GetSolution()
         {
             int length = dimensions.X * dimensions.Y;
 
@@ -24,8 +24,10 @@ namespace AdventOfCode2019.Puzzles.Day8
                 finalLayer.AddPixel(finalPixel);
             }
 
+            // Logs the solution
             finalLayer.Visualize();
-            return 0;
+
+            return ERROR;
         }
     }
 }

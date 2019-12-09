@@ -2,14 +2,14 @@ namespace AdventOfCode2019.Puzzles.Day1
 {
     public class Day1Part2Puzzle : Day1Puzzle
     {
-        public override int GetSolution()
+        public override string GetSolution()
         {
             int mass = 0;
 
             for (int i = 0; i < lines.Length; i++)
                 mass += CalculateFuel(int.Parse(lines[i]));;
 
-            return mass;
+            return mass.ToString();
         }
 
         private int CalculateFuel(int mass)
