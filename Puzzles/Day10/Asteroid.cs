@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AdventOfCode2019.Core;
 
 namespace AdventOfCode2019.Puzzles.Day10
@@ -12,7 +13,9 @@ namespace AdventOfCode2019.Puzzles.Day10
         public int X => position.X;
         public int Y => position.Y;
 
-        private Dictionary<double, Asteroid> angleAsteroids = new Dictionary<double, Asteroid>();
+        private Dictionary<double, List<Asteroid>> angleAsteroids = new Dictionary<double, List<Asteroid>>();
+
+        private int vaporizeIndex = 0;
 
         public int GetAsteroidsInSight()
         {
@@ -26,6 +29,34 @@ namespace AdventOfCode2019.Puzzles.Day10
             this.position = position;
         }
 
+        public bool VaporizeNextAsteroid(out IntVector2 position)
+        {
+            position = new IntVector2(0,0);
+
+            if(angleAsteroids.Keys.Count == 0)
+                return false;
+
+            List<Asteroid> asteroids = angleAsteroids.Values.ElementAt(vaporizeIndex);
+            if(asteroids.Count == 0)
+            {
+                IncreaseVaporizeIndex();
+                return false;
+            }
+
+            position = asteroids.First().Position;
+            asteroids.RemoveAt(0);
+
+            IncreaseVaporizeIndex();
+            return true;
+        }
+
+        private void IncreaseVaporizeIndex()
+        {
+            vaporizeIndex++;
+            if(vaporizeIndex == angleAsteroids.Keys.Count)
+                vaporizeIndex = 0;
+        }
+
         public void FindNeighbours(List<Asteroid> neighbours)
         {
             foreach (Asteroid asteroid in neighbours)
@@ -35,19 +66,15 @@ namespace AdventOfCode2019.Puzzles.Day10
 
                 double angle = Math.Atan2(asteroid.Y - this.Y, asteroid.X - this.X) * RAD_TO_DEG;
 
-                if(angleAsteroids.ContainsKey(angle))
-                {
-                    Asteroid current = angleAsteroids[angle];
-                    if (this.Position.ManhattenDist(current.Position) > this.Position.ManhattenDist(asteroid.Position))
-                    {
-                        angleAsteroids[angle] = asteroid;
-                    }
-                }
-                else
-                {
-                    angleAsteroids.Add(angle, asteroid);
-                }
+                if(!angleAsteroids.ContainsKey(angle))
+                    angleAsteroids.Add(angle, new List<Asteroid>());
+
+                angleAsteroids[angle].Add(asteroid);
+                angleAsteroids[angle] = angleAsteroids[angle].OrderBy(x => x.Position.ManhattenDist(this.Position)).ToList();
             }
+
+            angleAsteroids = angleAsteroids.OrderBy(x => x.Key).ToDictionary((keyItem) => keyItem.Key, (valueItem) => valueItem.Value);
+            vaporizeIndex = angleAsteroids.IndexOfKey(-90);
         }
     }
 }
