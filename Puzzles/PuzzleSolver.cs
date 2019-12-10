@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace AdventOfCode2019.Puzzles
 {
@@ -40,12 +41,18 @@ namespace AdventOfCode2019.Puzzles
                     continue;
                 }
 
+                Stopwatch stopwatch = new Stopwatch();
+
+                stopwatch.Start();
                 puzzleToSolve = puzzleFactory.GetPuzzle(day, part);
 
                 if (puzzleToSolve != null)
                     Console.WriteLine("Solution: " + puzzleToSolve.GetSolution());
                 else
                     Console.WriteLine("Puzzle not found..");
+
+                stopwatch.Stop();
+                Console.WriteLine(stopwatch.ElapsedMilliseconds + "ms " + stopwatch.ElapsedTicks + "ticks");
             }
         }
 

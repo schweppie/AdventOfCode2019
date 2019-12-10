@@ -11,11 +11,5 @@ namespace AdventOfCode2019.Puzzles.Day9
 
         protected IntComputer intComputer;
 
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            intComputer = new IntComputer(lines);
-        }
     }
 }
