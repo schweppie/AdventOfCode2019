@@ -35,7 +35,6 @@ namespace AdventOfCode2019.Core
         {
             return a.X == b.X && a.Y == b.Y;
         }
-
         public static bool operator !=(IntVector2 a, IntVector2 b)
         {
             return !(a == b);
@@ -49,6 +48,16 @@ namespace AdventOfCode2019.Core
         public static IntVector2 operator -(IntVector2 a, IntVector2 b)
         {
             return new IntVector2 (a.X - b.X, a.Y - b.Y);
+        }
+
+        public static IntVector2 Max()
+        {
+            return new IntVector2(int.MaxValue, int.MaxValue);
+        }
+
+        public static IntVector2 Min()
+        {
+            return new IntVector2(int.MinValue, int.MinValue);
         }
     }
 }
