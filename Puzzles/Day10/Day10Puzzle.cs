@@ -38,10 +38,10 @@ namespace AdventOfCode2019.Puzzles.Day10
                 asteroid.FindNeighbours(asteroids);
         }
 
-        protected int GetMostVisibleAsteroids(out Asteroid asteroid)
+        protected Asteroid GetBestAsteroid()
         {
             int visibleAsteroids = int.MinValue;
-            asteroid = null;
+            Asteroid asteroid = null;
             for(int i=0; i<asteroids.Count; i++)
             {
                 int visible = asteroids[i].GetAsteroidsInSight();
@@ -52,7 +52,7 @@ namespace AdventOfCode2019.Puzzles.Day10
                 }
             }
 
-            return visibleAsteroids;
+            return asteroid;
         }
     }
 }

@@ -6,8 +6,7 @@ namespace AdventOfCode2019.Puzzles.Day10
     {
         public override string GetSolution()
         {
-            Asteroid asteroid;
-            GetMostVisibleAsteroids(out asteroid);
+            Asteroid asteroid = GetBestAsteroid();
 
             IntVector2 position = new IntVector2(0,0);
             for(int i=0;i<200;i++)
