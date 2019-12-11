@@ -98,8 +98,9 @@ namespace AdventOfCode2019.Core.Emulation
 
         private void ExecuteOutput(Mode param1)
         {
-            output = GetData(instructionPointer + 1, param1);
-            //Console.WriteLine("Output: " + output);
+            long outputValue = GetData(instructionPointer + 1, param1);
+            output.Add(outputValue);
+            //Console.WriteLine("Output: " + outputValue);
             instructionPointer += 2;
         }
     }

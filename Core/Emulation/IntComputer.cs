@@ -12,7 +12,7 @@ namespace AdventOfCode2019.Core.Emulation
 
         private List<long> inputData = new List<long>();
 
-        private long output = long.MinValue;
+        private List<long> output = new List<long>();
 
         private bool running = false;
         public bool Running => running;
@@ -132,7 +132,20 @@ namespace AdventOfCode2019.Core.Emulation
 
         public long GetOutput()
         {
-            return output;
+            return GetOutput(0);
+        }
+
+        public bool HasOutputs()
+        {
+            return output.Count > 0;
+        }
+
+        public long GetOutput(int index)
+        {
+            long outputValue = output[index];
+            output.RemoveAt(index);
+
+            return outputValue;
         }
    }
 }

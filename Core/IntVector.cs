@@ -26,6 +26,11 @@ namespace AdventOfCode2019.Core
             return X.GetHashCode() ^ Y.GetHashCode();
         }
 
+        public override string ToString()
+        {
+            return X + "," + Y + " ";
+        }
+
         public static bool operator ==(IntVector2 a, IntVector2 b)
         {
             return a.X == b.X && a.Y == b.Y;
