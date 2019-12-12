@@ -17,10 +17,20 @@ namespace AdventOfCode2019.Core
         {
             IntVector3 other = (IntVector3)obj;
 
-            //i//f(other == null)
-            //    return false;
+            if(other == null)
+                return false;
 
            return X == other.X && Y == other.Y && Z == other.Z;
+        }
+
+        public static bool operator ==(IntVector3 a, IntVector3 b)
+        {
+            return a.X == b.X && a.Y == b.Y && a.Z == b.Z;
+        }
+
+        public static bool operator !=(IntVector3 a, IntVector3 b)
+        {
+            return a.X != b.X && a.Y != b.Y && a.Z != b.Z;
         }
 
         public override int GetHashCode()
