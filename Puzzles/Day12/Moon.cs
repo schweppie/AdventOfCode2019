@@ -9,13 +9,21 @@ namespace AdventOfCode2019.Puzzles.Day12
         private IntVector3 position;
         public IntVector3 Position => position;
 
+        private IntVector3 startPosition;
+
         private IntVector3 velocity;
         public IntVector3 Velocity => velocity;
 
         public Moon(int x, int y, int z)
         {
             position = new IntVector3(x,y,z);
+            startPosition = new IntVector3(x,y,z);
             velocity = new IntVector3(0,0,0);
+        }
+
+        public bool IsAtOrigin()
+        {
+            return position == startPosition;
         }
 
         public void Debug()
