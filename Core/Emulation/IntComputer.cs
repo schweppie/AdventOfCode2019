@@ -135,9 +135,14 @@ namespace AdventOfCode2019.Core.Emulation
             return GetOutput(0);
         }
 
+        public bool HasOutputs(int count)
+        {
+            return output.Count >= count;
+        }
+
         public bool HasOutputs()
         {
-            return output.Count > 0;
+            return HasOutputs(1);
         }
 
         public long GetOutput(int index)
