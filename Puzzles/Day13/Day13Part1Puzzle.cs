@@ -62,5 +62,7 @@ namespace AdventOfCode2019.Puzzles.Day13
 
             return blockTiles.ToString();;
         }
+
+
     }
 }

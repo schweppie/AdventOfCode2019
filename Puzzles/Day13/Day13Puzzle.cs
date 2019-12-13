@@ -17,16 +17,7 @@ namespace AdventOfCode2019.Puzzles.Day13
             computer = new IntComputer(lines);
         }
 
-        public enum Sprite
-        {
-            Empty = 0,
-            Wall = 1,
-            Block = 2,
-            Paddle = 3,
-            Ball = 4,
-        }
-
-        protected string GetSpriteString(Sprite sprite)
+        public static string GetSpriteString(Sprite sprite)
         {
             switch(sprite)
             {
@@ -37,11 +28,12 @@ namespace AdventOfCode2019.Puzzles.Day13
                 case Sprite.Block:
                     return "#";
                 case Sprite.Paddle:
-                    return "_";
+                    return "^";
                 case Sprite.Ball:
-                    return "*";
+                    return "O";
             }
             return " ";
         }
+
     }
 }
