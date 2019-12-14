@@ -9,9 +9,10 @@ namespace AdventOfCode2019.Puzzles.Day14
 
         private int defaultQuantity;
 
-        private int availableAmount;
-        public int AvailableAmount => availableAmount;
-        private int requestedAmount;
+        private long availableAmount;
+        public long AvailableAmount => availableAmount;
+        private long requestedAmount;
+        public long RequestedAmount => requestedAmount;
 
         private Dictionary<Chemical, int> requirements;
 
@@ -19,6 +20,11 @@ namespace AdventOfCode2019.Puzzles.Day14
         {
             requirements = new Dictionary<Chemical, int>();
             this.element = element;
+        }
+
+        public void OverrideAvailableAmount(long amount)
+        {
+            availableAmount = amount;
         }
 
         public void SetDefaultQuantity(int quantity)
