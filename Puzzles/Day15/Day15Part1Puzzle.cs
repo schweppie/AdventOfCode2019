@@ -64,48 +64,19 @@ namespace AdventOfCode2019.Puzzles.Day15
                         {
                             direction = new IntVector2(rootDirection.Y, -rootDirection.X);
                             checkedDirections++;
-                            break;
                         }
                         else if ( checkedDirections == 1)
                         {
                             direction = new IntVector2(-rootDirection.Y, rootDirection.X);
                             checkedDirections++;
-                            break;
                         }
                         else if ( checkedDirections == 2)
                         {
                             direction = -rootDirection;
                             traversing = true;
-                            break;
                         }
-
                         break;
-                    case int value when output == 1 && traversing:
-
-                        checkedDirections = 0;
-                        rootDirection = direction;
-
-                        droidPath.Add(newPosition);
-
-                        IntVector2 scanDirection = new IntVector2(rootDirection.Y, -rootDirection.X);
-                        if (!mapData.ContainsKey(newPosition + scanDirection) )
-                        {
-                            direction = scanDirection;
-                            traversing = false;
-                            break;
-                        }
-
-                        scanDirection = new IntVector2(-rootDirection.Y, rootDirection.X);
-                        if (!mapData.ContainsKey(newPosition + scanDirection) )
-                        {
-                            direction = scanDirection;
-                            traversing = false;
-                            break;
-                        }
-
-                        break;
-
-                    case int value when output == 1 && !traversing:
+                    case 1:
 
                         checkedDirections = 0;
                         rootDirection = direction;
@@ -120,12 +91,38 @@ namespace AdventOfCode2019.Puzzles.Day15
                         else
                             mapData.Add(newPosition, 4);
 
-                        DebugBitmap();
                         return "Hello world";
                         break;
 
-
                 }
+
+                if( !mapData.ContainsKey(newPosition + direction))
+                {
+                    Debug();
+                    Console.ReadKey();
+                    continue;
+                }
+
+                direction = new IntVector2(rootDirection.Y, -rootDirection.X);
+
+                if( !mapData.ContainsKey(newPosition + direction))
+                {
+                    Debug();
+                    Console.ReadKey();
+                    continue;
+                }
+
+                direction = new IntVector2(-rootDirection.Y, rootDirection.X);
+
+                if( !mapData.ContainsKey(newPosition + direction))
+                {
+                    Debug();
+                    Console.ReadKey();
+                    continue;
+                }
+
+                direction = rootDirection;
+
 
                 //0: The repair droid hit a wall. Its position has not changed.
                 //1: The repair droid has moved one step in the requested direction.
@@ -133,8 +130,8 @@ namespace AdventOfCode2019.Puzzles.Day15
 
 
 
-                ///Debug();
-                //Console.ReadKey();
+                Debug();
+                Console.ReadKey();
             }
 
             return 1.ToString();
