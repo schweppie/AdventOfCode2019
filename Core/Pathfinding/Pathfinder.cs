@@ -5,8 +5,8 @@ namespace AdventOfCode2019.Core.Pathfinding
 {
     public class Pathfinder
     {
-        private HashSet<PathNode> openList = new HashSet<PathNode>();
-        private HashSet<PathNode> closedList = new HashSet<PathNode>();
+        private HashSet<PathNode> openList;
+        private HashSet<PathNode> closedList;
 
         private Dictionary<IntVector2, int> mapData = new Dictionary<IntVector2, int>();
 
@@ -17,7 +17,13 @@ namespace AdventOfCode2019.Core.Pathfinding
 
         public List<IntVector2> GetPath(IntVector2 from, IntVector2 to)
         {
+            openList = new HashSet<PathNode>();
+            closedList = new HashSet<PathNode>();
+
             List<IntVector2> path = new List<IntVector2>();
+
+            if(mapData.ContainsKey(to) && mapData[to] == 1)
+                return path;
 
             PathNode currentNode;
             openList.Add(new PathNode(from, null));
@@ -36,6 +42,20 @@ namespace AdventOfCode2019.Core.Pathfinding
 
                 // Retrieve adjacent squares
                 adjecentTiles.Clear();
+
+                if(!mapData.ContainsKey(currentNode.Position + new IntVector2(0, -1)))
+                    mapData.Add(currentNode.Position + new IntVector2(0, -1), 0);
+
+                if(!mapData.ContainsKey(currentNode.Position + new IntVector2(-1, 0)))
+                    mapData.Add(currentNode.Position + new IntVector2(-1, 0), 0);
+
+                if(!mapData.ContainsKey(currentNode.Position + new IntVector2(0, 1)))
+                    mapData.Add(currentNode.Position + new IntVector2(0, 1), 0);
+
+                if(!mapData.ContainsKey(currentNode.Position + new IntVector2(1, 0)))
+                    mapData.Add(currentNode.Position + new IntVector2(1, 0), 0);
+
+
                 foreach(IntVector2 tile in mapData.Keys)
                 {
                     // Check if it is a wall
@@ -74,10 +94,12 @@ namespace AdventOfCode2019.Core.Pathfinding
                     else
                     {
                         // test if using the current G score make the aSquare F score lower, if yes update the parent because it means its a better path
-                        if ( currentNode.G + 1 < node.G)
+                        int newF = currentNode.G + 1 + node.H;
+
+                        if ( newF < node.F)
                         {
-                            node.SetG(currentNode.G + 1);
                             node.SetParent(currentNode);
+                            node.SetG(currentNode.G + 1);
                         }
                     }
 

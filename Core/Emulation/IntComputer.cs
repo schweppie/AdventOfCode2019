@@ -34,6 +34,8 @@ namespace AdventOfCode2019.Core.Emulation
         public void Load()
         {
             memory.Clear();
+            inputData.Clear();
+            output.Clear();
 
             for(int i=0; i< programData.Length; i++)
                 memory.Add(programData[i]);
