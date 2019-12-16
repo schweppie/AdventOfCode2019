@@ -18,67 +18,147 @@ namespace AdventOfCode2019.Puzzles.Day15
         private IntVector2 spiralDirection;
         private IntVector2 spiralPosition;
 
+        private IntVector2 position;
+        private IntVector2 direction;
+
         public override string GetSolution()
         {
             Pathfinder pathFinder = new Pathfinder();
             IntComputer computer = new IntComputer(lines);
 
-            spiralMap.Add(new IntVector2(0,0), 10);
+
+            computer.Load();
+
+            IntVector2 origin = new IntVector2(0,0);
+            direction = new IntVector2(1,0);
+
+            List<IntVector2> droidPath = new List<IntVector2>();
+
+            droidPath.Add(origin);
             mapData.Add(new IntVector2(0,0), 10);
 
-            spiralPosition = new IntVector2(0, 0);
-            spiralDirection = new IntVector2(1, 0);
+            IntVector2 rootDirection = direction;
+            int checkedDirections = 0;
+
+            mapData[origin] = 0;
+
+            bool traversing = false;
 
             while(true)
             {
-                spiralPosition += spiralDirection;
-                spiralMap.Add(spiralPosition, 2);
-                //DebugSpiral();
-                //Console.ReadKey();
-                pathFinder.SetMapData(mapData);
-                List<IntVector2> path = pathFinder.GetPath(new IntVector2(0,0), spiralPosition);
+                position = droidPath.Last();
 
-                computer.Load();
+                IntVector2 newPosition = position + direction;
 
-                IntVector2 origin = new IntVector2(0,0);
-                for(int i=0; i<path.Count; i++)
+                computer.AddInput(GetMovement(direction));
+                computer.Run();
+
+                int output = (int)computer.GetOutput();
+
+                switch(output)
                 {
-                    int input = GetDirection(origin, path[i]);
+                    case 0:
+                        mapData[newPosition] = 1;
 
-                    computer.AddInput(input);
-                    computer.Run();
+                        if (checkedDirections == 0)
+                        {
+                            direction = new IntVector2(rootDirection.Y, -rootDirection.X);
+                            checkedDirections++;
+                            break;
+                        }
+                        else if ( checkedDirections == 1)
+                        {
+                            direction = new IntVector2(-rootDirection.Y, rootDirection.X);
+                            checkedDirections++;
+                            break;
+                        }
+                        else if ( checkedDirections == 2)
+                        {
+                            direction = -rootDirection;
+                            traversing = true;
+                            break;
+                        }
 
-                    int output = (int)computer.GetOutput();
+                        break;
+                    case int value when output == 1 && traversing:
 
-                    if (output == 0)
-                    {
-                        if(mapData.ContainsKey(path[i]))
-                            mapData[path[i]] = 1;
+                        checkedDirections = 0;
+                        rootDirection = direction;
+
+                        droidPath.Add(newPosition);
+
+                        IntVector2 scanDirection = new IntVector2(rootDirection.Y, -rootDirection.X);
+                        if (!mapData.ContainsKey(newPosition + scanDirection) )
+                        {
+                            direction = scanDirection;
+                            traversing = false;
+                            break;
+                        }
+
+                        scanDirection = new IntVector2(-rootDirection.Y, rootDirection.X);
+                        if (!mapData.ContainsKey(newPosition + scanDirection) )
+                        {
+                            direction = scanDirection;
+                            traversing = false;
+                            break;
+                        }
+
+                        break;
+
+                    case int value when output == 1 && !traversing:
+
+                        checkedDirections = 0;
+                        rootDirection = direction;
+
+                        mapData[newPosition] = 0;
+                        droidPath.Add(newPosition);
+
+                        break;
+                    case 2:
+                        if(mapData.ContainsKey(newPosition))
+                            mapData[newPosition] = 4;
                         else
-                            mapData.Add(path[i], 1);
-                        break;
-                    }
-                    if (output == 2)
-                    {
-                        Console.WriteLine("found at " + path[i]);
-                        Console.ReadKey();
-                        break;
-                    }
+                            mapData.Add(newPosition, 4);
 
-                    origin = path[i];
+                        DebugBitmap();
+                        return "Hello world";
+                        break;
+
+
                 }
 
-                IntVector2 neighbour = spiralPosition + new IntVector2(spiralDirection.Y, -spiralDirection.X);
+                //0: The repair droid hit a wall. Its position has not changed.
+                //1: The repair droid has moved one step in the requested direction.
+                //2: The repair droid has moved one step in the requested direction; its new position is the location of the oxygen system.
 
-                if (!spiralMap.Keys.Contains(neighbour))
-                    spiralDirection = new IntVector2(spiralDirection.Y, -spiralDirection.X);
 
-                //DebugBitmap();
-                Debug(path);
-                Console.ReadKey();
+
+                ///Debug();
+                //Console.ReadKey();
             }
 
             return 1.ToString();
+        }
+
+        private int GetMovement(IntVector2 direction)
+        {
+            // north (1), south (2), west (3), and east (4)
+            if (direction.X == 0 )
+            {
+                if (direction.Y == 1)
+                    return 1;
+                else if (direction.Y == -1)
+                    return 2;
+            }
+            if (direction.Y == 0 )
+            {
+                if (direction.X == 1)
+                    return 4;
+                else if (direction.X == -1)
+                    return 3;
+            }
+
+            throw new Exception("invalid direction comparison");
         }
 
         private int GetDirection(IntVector2 from, IntVector2 to)
@@ -121,25 +201,39 @@ namespace AdventOfCode2019.Puzzles.Day15
         }
 
 
-        private void Debug(List<IntVector2> path)
+        private void Debug()
         {
             Console.Clear();
             foreach(var pair in mapData)
             {
-                Console.SetCursorPosition(pair.Key.X+40, pair.Key.Y+15);
-                Console.Write(GetDebugTile(pair.Value));
-            }
-
-            foreach(var pair in mapData)
-            {
-                foreach(var node in path)
+                Console.SetCursorPosition(pair.Key.X+40, pair.Key.Y+20);
+                if(pair.Key == position)
                 {
-                    if(pair.Key == node)
+                    int mov = GetMovement(direction);
+                    string sprite = "";
+                    switch(mov)
                     {
-                        Console.SetCursorPosition(pair.Key.X+40, pair.Key.Y+15);
-                        Console.Write(GetDebugTile(4));
+                        case 1:
+                            sprite = "v";
+                            break;
+                        case 2:
+                            sprite = "^";
+                            break;
+                        case 3:
+                            sprite = "<";
+                            break;
+                        case 4:
+                            sprite = ">";
+                            break;
                     }
+                    Console.Write(sprite);
                 }
+                else
+                {
+                    Console.Write(GetDebugTile(pair.Value));
+                }
+
+
             }
 
              Console.SetCursorPosition(0,28);
