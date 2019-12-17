@@ -17,7 +17,7 @@ namespace AdventOfCode2019.Puzzles.Day13
             IntVector2 paddlePosition = new IntVector2(0,0);
             int joystick = 0;
             int score = 0;
-            int blockCount = 0;
+
             while(true)
             {
                 if (!computer.HasOutputs(3))

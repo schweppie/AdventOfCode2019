@@ -28,6 +28,7 @@ namespace AdventOfCode2019.Core.Pathfinding
 
             while(true)
             {
+
                 currentNode = openList.OrderBy(x => x.F).First(); // Get the square with the lowest F score
 
                 closedList.Add(currentNode); // add the current square to the closed list
