@@ -22,9 +22,6 @@ namespace AdventOfCode2019.Core.Pathfinding
 
             List<IntVector2> path = new List<IntVector2>();
 
-            if(mapData.ContainsKey(to) && mapData[to] == 1)
-                return path;
-
             PathNode currentNode;
             openList.Add(new PathNode(from, null));
             List<IntVector2> adjecentTiles = new List<IntVector2>();
@@ -43,40 +40,22 @@ namespace AdventOfCode2019.Core.Pathfinding
                 // Retrieve adjacent squares
                 adjecentTiles.Clear();
 
-                if(!mapData.ContainsKey(currentNode.Position + new IntVector2(0, -1)))
-                    mapData.Add(currentNode.Position + new IntVector2(0, -1), 0);
+                if(mapData.ContainsKey(currentNode.Position + new IntVector2(0, -1)))
+                    adjecentTiles.Add(currentNode.Position + new IntVector2(0, -1));
 
-                if(!mapData.ContainsKey(currentNode.Position + new IntVector2(-1, 0)))
-                    mapData.Add(currentNode.Position + new IntVector2(-1, 0), 0);
+                if(mapData.ContainsKey(currentNode.Position + new IntVector2(-1, 0)))
+                    adjecentTiles.Add(currentNode.Position + new IntVector2(-1, 0));
 
-                if(!mapData.ContainsKey(currentNode.Position + new IntVector2(0, 1)))
-                    mapData.Add(currentNode.Position + new IntVector2(0, 1), 0);
+                if(mapData.ContainsKey(currentNode.Position + new IntVector2(0, 1)))
+                    adjecentTiles.Add(currentNode.Position + new IntVector2(0, 1));
 
-                if(!mapData.ContainsKey(currentNode.Position + new IntVector2(1, 0)))
-                    mapData.Add(currentNode.Position + new IntVector2(1, 0), 0);
-
-
-                foreach(IntVector2 tile in mapData.Keys)
-                {
-                    // Check if it is a wall
-                    if (mapData[tile] != 0)
-                        continue;
-
-                    if (tile.X == currentNode.Position.X && tile.Y - 1 == currentNode.Position.Y)
-                        adjecentTiles.Add(tile);
-
-                    if (tile.X == currentNode.Position.X - 1 && tile.Y == currentNode.Position.Y)
-                        adjecentTiles.Add(tile);
-
-                    if (tile.X == currentNode.Position.X && tile.Y + 1 == currentNode.Position.Y)
-                        adjecentTiles.Add(tile);
-
-                    if (tile.X == currentNode.Position.X + 1 && tile.Y == currentNode.Position.Y)
-                        adjecentTiles.Add(tile);
-                }
+                if(mapData.ContainsKey(currentNode.Position + new IntVector2(1, 0)))
+                    adjecentTiles.Add(currentNode.Position + new IntVector2(1, 0));
 
                 foreach(IntVector2 adjecent in adjecentTiles)
                 {
+                    if (mapData[adjecent] == 1)
+                        continue;
 
                     if (closedList.FirstOrDefault(x => x.Position == adjecent) != null)
                         continue;
@@ -103,10 +82,12 @@ namespace AdventOfCode2019.Core.Pathfinding
                         }
                     }
 
-                    // Continue until there is no more available square in the open list (which means there is no path)
-                    if(openList.Count == 0)
-                        return null;
+
                 }
+
+                // Continue until there is no more available square in the open list (which means there is no path)
+                if(openList.Count == 0)
+                    return null;
             }
 
             while(true)

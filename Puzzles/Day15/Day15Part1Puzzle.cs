@@ -13,11 +13,8 @@ namespace AdventOfCode2019.Puzzles.Day15
     {
         private Dictionary<IntVector2, int> mapData = new Dictionary<IntVector2, int>();
 
-        private Dictionary<IntVector2, int> spiralMap = new Dictionary<IntVector2, int>();
-
-        private IntVector2 spiralDirection;
-        private IntVector2 spiralPosition;
-
+        private IntVector2 origin = new IntVector2(0,0);
+        private IntVector2 target;
         private IntVector2 position;
         private IntVector2 direction;
 
@@ -26,28 +23,18 @@ namespace AdventOfCode2019.Puzzles.Day15
             Pathfinder pathFinder = new Pathfinder();
             IntComputer computer = new IntComputer(lines);
 
-
             computer.Load();
 
-            IntVector2 origin = new IntVector2(0,0);
-            direction = new IntVector2(1,0);
-
-            List<IntVector2> droidPath = new List<IntVector2>();
-
-            droidPath.Add(origin);
-            mapData.Add(new IntVector2(0,0), 10);
+            direction = new IntVector2(-1,0);
+            position = origin;
 
             IntVector2 rootDirection = direction;
             int checkedDirections = 0;
 
-            mapData[origin] = 0;
-
-            bool traversing = false;
+            mapData[origin] = 10;
 
             while(true)
             {
-                position = droidPath.Last();
-
                 IntVector2 newPosition = position + direction;
 
                 computer.AddInput(GetMovement(direction));
@@ -55,14 +42,16 @@ namespace AdventOfCode2019.Puzzles.Day15
 
                 int output = (int)computer.GetOutput();
 
+                //0: The repair droid hit a wall. Its position has not changed.
+                //1: The repair droid has moved one step in the requested direction.
+                //2: The repair droid has moved one step in the requested direction; its new position is the location of the oxygen system.
                 switch(output)
                 {
                     case 0:
                         mapData[newPosition] = 1;
-
                         if (checkedDirections == 0)
                         {
-                            direction = new IntVector2(rootDirection.Y, -rootDirection.X);
+                            direction = rootDirection;
                             checkedDirections++;
                         }
                         else if ( checkedDirections == 1)
@@ -73,68 +62,38 @@ namespace AdventOfCode2019.Puzzles.Day15
                         else if ( checkedDirections == 2)
                         {
                             direction = -rootDirection;
-                            traversing = true;
+                            rootDirection = direction;
                         }
                         break;
                     case 1:
-
                         checkedDirections = 0;
                         rootDirection = direction;
-
+                        direction = new IntVector2(rootDirection.Y, -rootDirection.X);
                         mapData[newPosition] = 0;
-                        droidPath.Add(newPosition);
-
+                        position = newPosition;
                         break;
                     case 2:
-                        if(mapData.ContainsKey(newPosition))
-                            mapData[newPosition] = 4;
-                        else
-                            mapData.Add(newPosition, 4);
-
-                        return "Hello world";
+                        mapData[newPosition] = 4;
+                        target = newPosition;
+                        position = newPosition;
                         break;
-
                 }
 
-                if( !mapData.ContainsKey(newPosition + direction))
-                {
-                    Debug();
-                    Console.ReadKey();
-                    continue;
-                }
 
-                direction = new IntVector2(rootDirection.Y, -rootDirection.X);
+                if (newPosition == origin)
+                    break;
+            }
+            pathFinder.SetMapData(mapData);
+            List<IntVector2> path = pathFinder.GetPath(origin, target);
 
-                if( !mapData.ContainsKey(newPosition + direction))
-                {
-                    Debug();
-                    Console.ReadKey();
-                    continue;
-                }
-
-                direction = new IntVector2(-rootDirection.Y, rootDirection.X);
-
-                if( !mapData.ContainsKey(newPosition + direction))
-                {
-                    Debug();
-                    Console.ReadKey();
-                    continue;
-                }
-
-                direction = rootDirection;
-
-
-                //0: The repair droid hit a wall. Its position has not changed.
-                //1: The repair droid has moved one step in the requested direction.
-                //2: The repair droid has moved one step in the requested direction; its new position is the location of the oxygen system.
-
-
-
-                Debug();
-                Console.ReadKey();
+            foreach( var node in path)
+            {
+                mapData[node] = 2;
             }
 
-            return 1.ToString();
+            Debug();
+            DebugBitmap();
+            return path.Count().ToString();
         }
 
         private int GetMovement(IntVector2 direction)
@@ -236,19 +195,6 @@ namespace AdventOfCode2019.Puzzles.Day15
              Console.SetCursorPosition(0,28);
         }
 
-        private void DebugSpiral()
-        {
-            Console.Clear();
-            foreach(var pair in spiralMap)
-            {
-                Console.SetCursorPosition(pair.Key.X+40, pair.Key.Y+15);
-                Console.Write(GetDebugTile(pair.Value));
-            }
-
-             Console.SetCursorPosition(0,28);
-             Console.WriteLine("direction: " + spiralDirection.X + "," + spiralDirection.Y );
-        }
-
         private string GetDebugTile(int tile)
         {
             switch(tile)
@@ -256,7 +202,7 @@ namespace AdventOfCode2019.Puzzles.Day15
                 case 0: return ".";
                 case 1: return "#";
                 case 2: return "*";
-                case 4: return "P";
+                case 4: return "E";
                 case 10: return "S";
             }
 
