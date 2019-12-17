@@ -95,7 +95,6 @@ namespace AdventOfCode2019.Puzzles.Day15
             pathFinder.SetMapData(mapData);
         }
 
-
         private int GetMovement(IntVector2 direction)
         {
             // north (1), south (2), west (3), and east (4)

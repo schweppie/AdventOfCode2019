@@ -1,6 +1,5 @@
 #undef DEBUG
 
-using System;
 using System.Collections.Generic;
 
 namespace AdventOfCode2019.Core.Emulation
