@@ -7,8 +7,6 @@ namespace AdventOfCode2019.Puzzles.Day17
     {
         public override string GetSolution()
         {
-
-
             List<IntVector2> intersections = new List<IntVector2>();
 
             foreach(var pos in viewData.Keys)

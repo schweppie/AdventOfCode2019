@@ -48,6 +48,12 @@ namespace AdventOfCode2019.Core.Emulation
             SetMemory(index, instruction);
         }
 
+        public void AddInput(IEnumerable<long> list)
+        {
+            foreach(var ding in list)
+                inputData.Add(ding);
+        }
+
         public void AddInput(long input)
         {
             inputData.Add(input);
@@ -144,6 +150,11 @@ namespace AdventOfCode2019.Core.Emulation
         public bool HasOutputs()
         {
             return HasOutputs(1);
+        }
+
+        public int OutputCount()
+        {
+            return output.Count;
         }
 
         public long GetOutput(int index)

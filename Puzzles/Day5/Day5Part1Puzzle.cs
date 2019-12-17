@@ -9,7 +9,7 @@ namespace AdventOfCode2019.Puzzles.Day5
             intComputer.Load();
             intComputer.AddInput(1);
             intComputer.Run();
-            return intComputer.GetOutput().ToString();
+            return intComputer.GetOutput(intComputer.OutputCount()-1).ToString();
         }
     }
 }
