@@ -53,6 +53,11 @@ namespace AdventOfCode2019.Core
             return new IntVector2 (a.X - b.X, a.Y - b.Y);
         }
 
+        public static IntVector2 operator -(IntVector2 v)
+        {
+            return new IntVector2 (-v.X, -v.Y);
+        }
+
         public static IntVector2 Max()
         {
             return new IntVector2(int.MaxValue, int.MaxValue);

@@ -9,6 +9,7 @@ namespace AdventOfCode2019.Core.Pathfinding
         public int G => g;
 
         private int h;
+        public int H => h;
 
         private PathNode parent;
         public PathNode Parent => parent;
@@ -23,7 +24,7 @@ namespace AdventOfCode2019.Core.Pathfinding
         {
             get
             {
-                return g*h;
+                return g+h;
             }
         }
 
